@@ -112,7 +112,9 @@ components:
     env:
       - name: DB_HOST
         component-ref: db
-
+    ports:
+      - 4000
+      
   - name: db
     docker:
       image: ghcr.io/webysther/supabase-postgres:15.8.1
@@ -128,6 +130,8 @@ components:
       - name: db-config
         path: /etc/postgresql-custom
         size: 100Mi
+    ports:
+      - 5432
 
   - name: vector
     docker:
@@ -137,7 +141,6 @@ components:
     docker:
       image: ghcr.io/webysther/supabase-supavisor:2.7.4
     ports:
-      - 5432
       - 6543
     env:
       - name: DB_HOST
