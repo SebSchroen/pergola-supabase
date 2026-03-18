@@ -51,7 +51,8 @@ components:
         component-ref: db
       - name: ANALYTICS_HOST
         component-ref: analytics
-
+    ports:
+      - 9000
   - name: realtime
     docker:
       image: ghcr.io/webysther/supabase-realtime:2.72.0
@@ -83,7 +84,8 @@ components:
       - name: storage-data
         path: /var/lib/storage
         size: 1Gi
-
+    ports:
+      - 9001
   - name: meta
     docker:
       image: ghcr.io/webysther/supabase-meta:0.95.2
@@ -114,7 +116,7 @@ components:
         component-ref: db
     ports:
       - 4000
-      
+
   - name: db
     docker:
       image: ghcr.io/webysther/supabase-postgres:15.8.1

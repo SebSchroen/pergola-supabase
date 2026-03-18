@@ -1,10 +1,35 @@
 #!/bin/bash
 
-# Apply the .env file as configuration to Pergola for the 'dev' stage.
+# Apply the .env variables as configuration to Pergola for the 'dev' stage.
 # Using 'supabase-config' as the name.
+# Since 'pergola add config-data' expects '--env key=value' for variables,
+# we parse the .env file and construct the command.
 
-echo "Setting configuration 'supabase-config' for stage 'dev' using .env..."
-pergola add config-data supabase-config  -p supapbase -s dev --file .env
+CONFIG_NAME="supabase-config"
+STAGE="dev"
+ENV_FILE=".env"
+
+echo "Parsing $ENV_FILE and applying to Pergola config '$CONFIG_NAME' for stage '$STAGE'..."
+
+# Build the command arguments
+# We ignore lines starting with # and empty lines
+ARGS=""
+while IFS= read -r line || [[ -n "$line" ]]; do
+  # Skip comments and empty lines
+  [[ "$line" =~ ^#.*$ ]] && continue
+  [[ -z "$line" ]] && continue
+  
+  # Append --env key=value
+  ARGS="$ARGS --env $line"
+done < "$ENV_FILE"
+
+if [ -z "$ARGS" ]; then
+  echo "No environment variables found in $ENV_FILE"
+  exit 1
+fi
+
+# Execute the pergola command with all collected --env arguments
+pergola add config-data "$CONFIG_NAME" -s "$STAGE" $ARGS
 
 if [ $? -eq 0 ]; then
   echo "Configuration applied successfully."
