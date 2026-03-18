@@ -1,0 +1,146 @@
+version:v1
+
+components:
+  - name: studio
+    docker:
+      image: ghcr.io/webysther/supabase-studio:2026.01.27
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+    storage:
+      - name: snippets
+        path: /app/snippets
+        size: 1Gi
+      - name: functions
+        path: /app/edge-functions
+        size: 1Gi
+    ingresses:
+      - host: console
+
+  - name: kong
+    docker:
+      image: ghcr.io/webysther/supabase-kong:2.8.1
+    ports:
+      - 8000
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+
+  - name: auth
+    docker:
+      image: ghcr.io/webysther/supabase-auth:2.185.0
+    env:
+      - name: DB_HOST
+        component-ref: db
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+
+  - name: rest
+    docker:
+      image: ghcr.io/webysther/supabase-rest:14.3
+    env:
+      - name: DB_HOST
+        component-ref: db
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+
+  - name: realtime
+    docker:
+      image: ghcr.io/webysther/supabase-realtime:2.72.0
+    env:
+      - name: DB_HOST
+        component-ref: db
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+
+  - name: storage
+    docker:
+      image: ghcr.io/webysther/supabase-storage:1.37.1
+    env:
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+    storage:
+      - name: storage-data
+        path: /var/lib/storage
+        size: 10Gi
+
+  - name: imgproxy
+    docker:
+      image: ghcr.io/webysther/supabase-img:3.30.1
+    storage:
+      - name: storage-data
+        path: /var/lib/storage
+        size: 10Gi
+
+  - name: meta
+    docker:
+      image: ghcr.io/webysther/supabase-meta:0.95.2
+    env:
+      - name: DB_HOST
+        component-ref: db
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+
+  - name: functions
+    docker:
+      image: ghcr.io/webysther/supabase-functions:1.70.0
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+    storage:
+      - name: functions-data
+        path: /home/deno/functions
+        size: 1Gi
+
+  - name: analytics
+    docker:
+      image: ghcr.io/webysther/supabase-analytics:1.30.3
+    env:
+      - name: DB_HOST
+        component-ref: db
+
+  - name: db
+    docker:
+      image: ghcr.io/webysther/supabase-postgres:15.8.1
+    env:
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+    storage:
+      - name: db-data
+        path: /var/lib/postgresql/data
+        size: 20Gi
+      - name: db-config
+        path: /etc/postgresql-custom
+        size: 100Mi
+
+  - name: vector
+    docker:
+      image: ghcr.io/webysther/supabase-vector:0.28.1
+
+  - name: supavisor
+    docker:
+      image: ghcr.io/webysther/supabase-supavisor:2.7.4
+    ports:
+      - 5432
+      - 6543
+    env:
+      - name: DB_HOST
+        component-ref: db
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: POSTGRES_PORT
+        value: "5432"
