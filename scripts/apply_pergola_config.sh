@@ -4,7 +4,7 @@
 # Using 'supabase-config' as the name.
 
 echo "Setting configuration 'supabase-config' for stage 'dev' using .env..."
-pergola add config-data supabase-config  -p supabase -s dev --file .env
+pergola add config-data supabase-config  -p supapbase -s dev --file .env
 
 if [ $? -eq 0 ]; then
   echo "Configuration applied successfully."
