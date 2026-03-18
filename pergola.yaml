@@ -7,6 +7,26 @@ components:
     env:
       - name: ANALYTICS_HOST
         component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
     ports:
       - 3000
     storage:
@@ -27,51 +47,135 @@ components:
     env:
       - name: ANALYTICS_HOST
         component-ref: analytics
-
-  - name: auth
-    docker:
-      image: ghcr.io/webysther/supabase-auth:2.185.0
-    env:
-      - name: DB_HOST
-        component-ref: db
-      - name: ANALYTICS_HOST
-        component-ref: analytics
-      - name: ANON_KEY
-        config-ref: ANON_KEY
-      - name: SERVICE_ROLE_KEY
-        config-ref: SERVICE_ROLE_KEY
-      - name: JWT_SECRET
-        config-ref: JWT_SECRET
-
-  - name: rest
-    docker:
-      image: ghcr.io/webysther/supabase-rest:14.3
-    env:
-      - name: DB_HOST
-        component-ref: db
-      - name: ANALYTICS_HOST
-        component-ref: analytics
-    ports:
-      - 9000
-  - name: realtime
-    docker:
-      image: ghcr.io/webysther/supabase-realtime:2.72.0
-    env:
-      - name: DB_HOST
-        component-ref: db
-      - name: ANALYTICS_HOST
-        component-ref: analytics
-
-  - name: storage
-    docker:
-      image: ghcr.io/webysther/supabase-storage:1.37.1
-    env:
       - name: DB_HOST
         component-ref: db
       - name: REST_HOST
         component-ref: rest
       - name: IMGPROXY_HOST
         component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
+
+  - name: auth
+    docker:
+      image: ghcr.io/webysther/supabase-auth:2.185.0
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
+
+  - name: rest
+    docker:
+      image: ghcr.io/webysther/supabase-rest:14.3
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
+    ports:
+      - 9000
+  - name: realtime
+    docker:
+      image: ghcr.io/webysther/supabase-realtime:2.72.0
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
+
+  - name: storage
+    docker:
+      image: ghcr.io/webysther/supabase-storage:1.37.1
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
     storage:
       - name: storage-data
         path: /var/lib/storage
@@ -80,6 +184,29 @@ components:
   - name: imgproxy
     docker:
       image: ghcr.io/webysther/supabase-img:3.30.1
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
     storage:
       - name: storage-data
         path: /var/lib/storage
@@ -90,12 +217,28 @@ components:
     docker:
       image: ghcr.io/webysther/supabase-meta:0.95.2
     env:
-      - name: DB_HOST
-        component-ref: db
       - name: ANALYTICS_HOST
         component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
       - name: PG_META_CRYPTO_KEY
         config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
 
   - name: functions
     docker:
@@ -103,6 +246,26 @@ components:
     env:
       - name: ANALYTICS_HOST
         component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
     storage:
       - name: functions-data
         path: /home/deno/functions
@@ -112,8 +275,28 @@ components:
     docker:
       image: ghcr.io/webysther/supabase-analytics:1.30.3
     env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
       - name: DB_HOST
         component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
     ports:
       - 4000
 
@@ -121,10 +304,28 @@ components:
     docker:
       image: ghcr.io/webysther/supabase-postgres:15.8.1
     env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
       - name: POSTGRES_PASSWORD
         config-ref: POSTGRES_PASSWORD
       - name: POSTGRES_DB
         value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
     storage:
       - name: db-data
         path: /var/lib/postgresql/data
@@ -138,6 +339,29 @@ components:
   - name: vector
     docker:
       image: ghcr.io/webysther/supabase-vector:0.28.1
+    env:
+      - name: ANALYTICS_HOST
+        component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
+      - name: POSTGRES_PORT
+        value: "5432"
 
   - name: supavisor
     docker:
@@ -145,9 +369,25 @@ components:
     ports:
       - 6543
     env:
-      - name: DB_HOST
-        component-ref: db
       - name: ANALYTICS_HOST
         component-ref: analytics
+      - name: DB_HOST
+        component-ref: db
+      - name: REST_HOST
+        component-ref: rest
+      - name: IMGPROXY_HOST
+        component-ref: imgproxy
+      - name: ANON_KEY
+        config-ref: ANON_KEY
+      - name: SERVICE_ROLE_KEY
+        config-ref: SERVICE_ROLE_KEY
+      - name: JWT_SECRET
+        config-ref: JWT_SECRET
+      - name: PG_META_CRYPTO_KEY
+        config-ref: PG_META_CRYPTO_KEY
+      - name: POSTGRES_PASSWORD
+        config-ref: POSTGRES_PASSWORD
+      - name: POSTGRES_DB
+        value: postgres
       - name: POSTGRES_PORT
         value: "5432"
