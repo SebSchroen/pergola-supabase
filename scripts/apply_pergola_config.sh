@@ -8,6 +8,7 @@
 CONFIG_NAME="supabase-config"
 STAGE="dev"
 ENV_FILE=".env"
+PROJECT="supapbase"
 
 echo "Parsing $ENV_FILE and applying to Pergola config '$CONFIG_NAME' for stage '$STAGE'..."
 
@@ -29,7 +30,7 @@ if [ -z "$ARGS" ]; then
 fi
 
 # Execute the pergola command with all collected --env arguments
-pergola add config-data "$CONFIG_NAME" -s "$STAGE" $ARGS
+pergola add config-data "$CONFIG_NAME" -p "$PROJECT" -s "$STAGE" $ARGS
 
 if [ $? -eq 0 ]; then
   echo "Configuration applied successfully."
